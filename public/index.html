@@ -1,0 +1,447 @@
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Listings</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .hero {
+      position: relative;
+      background-color: #f8f9fa;
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+    }
+    .section {
+      padding: 60px 0;
+    }
+    .section-heading {
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    .card-body {
+      text-align: center;
+    }
+
+    .about, .history {
+      padding: 3rem 0;
+    }
+
+    .footer {
+      background-color: #000000;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Property Listings</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="register.html">Register</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  
+  <div id="heroCarousel" class="carousel slide hero">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://via.placeholder.com/1920x600" alt="Hero Image 1">
+        <div class="hero-content">
+          <h1>Welcome to Our Property Listings</h1>
+          <p>Find your dream home today!</p>
+          <a href="#properties" class="btn btn-primary">Explore Listings</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1920x600" alt="Hero Image 2">
+        <div class="hero-content">
+          <h1>Find the Perfect Property</h1>
+          <p>Browse through a wide range of properties that suit your needs.</p>
+          <a href="#properties" class="btn btn-primary">Explore Listings</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+  <div id="properties" class="container mt-5 section">
+    <h1 class="section-heading">Properties</h1>
+    <div id="property-list" class="row"></div>
+  </div>
+
+
+ <section id="about" class="about bg-light">
+    <div class="container">
+      <h2 class="section-title">About Us</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </section>
+
+ 
+  <section id="history" class="history">
+    <div class="container">
+      <h2 class="section-title">Our History</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Nam ut quam sed purus fermentum aliquet. In bibendum, mauris eget ultricies feugiat, nunc justo ultrices augue, a cursus lectus erat ac libero.</p>
+    </div>
+  </section>
+
+
+  <footer class="footer mt-auto py-3 bg-dark">
+    <div class="container">
+        <p class="text-center mb-0 text-white">© 2024 Bayelsa Real Estate Connect. All Rights Reserved.</p>
+    </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    async function fetchProperties() {
+      try {
+        const res = await fetch('/properties');
+        if (!res.ok) throw new Error('Network response was not ok');
+        const properties = await res.json();
+
+        const propertyList = document.getElementById('property-list');
+        propertyList.innerHTML = '';
+
+        properties.forEach(property => {
+          const card = document.createElement('div');
+          card.className = 'col-md-4 mb-4';
+
+          card.innerHTML = `
+            <div class="card">
+              <div id="carousel-${property._id}" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  ${property.images.map((img, idx) => `
+                    <div class="carousel-item ${idx === 0 ? 'active' : ''}">
+                      <img src="${img}" class="d-block w-100" alt="Property Image ${idx + 1}">
+                    </div>
+                  `).join('')}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${property._id}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel-${property._id}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">${property.title}</h5>
+                <p class="card-text">${property.description}</p>
+                <p class="card-text"><small class="text-muted">${property.location}</small></p>
+                <button class="btn btn-danger" onclick="deleteProperty('${property._id}')">Delete</button>
+              </div>
+            </div>
+          `;
+
+          propertyList.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    }
+
+    async function deleteProperty(propertyId) {
+      const token = localStorage.getItem('token'); 
+      try {
+        const res = await fetch(`/dashboard/${propertyId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!res.ok) throw new Error('Network response was not ok');
+        fetchProperties(); 
+      } catch (error) {
+        console.error('Error deleting property:', error);
+      }
+    }
+
+    fetchProperties(); 
+  </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Listings</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .hero {
+      position: relative;
+      background-color: #f8f9fa;
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+    }
+    .section {
+      padding: 60px 0;
+    }
+    .section-heading {
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    .card-body {
+      text-align: center;
+    }
+    .about, .history {
+      padding: 3rem 0;
+    }
+    .footer {
+      background-color: #000000;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="/">BAYELSA REAL ESTATE CONNCET</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="register.html">Register</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div id="heroCarousel" class="carousel slide hero">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Hero Image 1">
+        <div class="hero-content">
+          <h1>Welcome to Our Property Listings</h1>
+          <p>Find your dream home today!</p>
+          <a href="#properties" class="btn btn-primary">Explore Listings</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Hero Image 2">
+        <div class="hero-content">
+          <h1>Find the Perfect Property</h1>
+          <p>Browse through a wide range of properties that suit your needs.</p>
+          <a href="#properties" class="btn btn-primary">Explore Listings</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Properties Section -->
+  <div id="properties" class="container mt-5 section">
+    <h1 class="section-heading">Properties</h1>
+    <div class="mb-4">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search by location...">
+      <button id="searchButton" class="btn btn-primary mt-2">Search</button>
+    </div>
+    <div id="property-list" class="row"></div>
+  </div>
+
+  <!-- About Section -->
+  <section id="about" class="about bg-light">
+    <div class="container">
+      <h2 class="section-title">About Us</h2>
+      <p>Learn more about Bayelsa Connect and our mission to connect you with the perfect property.</p>
+    </div>
+  </section>
+
+  <!-- Our History Section -->
+  <section id="history" class="history">
+    <div class="container">
+      <h2 class="section-title">Our History</h2>
+      <p> Wisdom Gbasei, a computer science and informatics final year student, developed this system, Bayelsa Real Estate Connect, as a final year project. The project's goal is to give the state of Bayelsa better real estate services. This real estate website, in contrast to others, focuses on providing people with a means of renting and selling properties on their own</p>
+    </div>
+  </section>
+
+  <section id="history" class="history">
+    <div class="container">
+      <h2 class="section-title">Our Mission</h2>
+      <p> Our mission is to make it easier for people to own their ideal home in Bayelsa State and to avoid being taken advantage of by real estate brokers and businesses. By facilitating communication between buyers and sellers, Bayelsa Real Estate Connect will speed up, simplify, and reduce the time required for the acquisition and rental of real estate</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-dark">
+    <div class="container">
+      <p class="text-center mb-0 text-white">© 2024 Bayelsa Real Estate Connect. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const locations = ['Brass', 'Ekeremor', 'Kolokuma/Opokuma', 'Nembe', 'Ogbia', 'Sagbama', 'Southern Ijaw', 'Yenagoa'];
+
+    async function fetchProperties() {
+      try {
+        const res = await fetch('/properties');
+        if (!res.ok) throw new Error('Network response was not ok');
+        const properties = await res.json();
+        displayProperties(properties);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    }
+
+    function displayProperties(properties) {
+      const propertyList = document.getElementById('property-list');
+      propertyList.innerHTML = '';
+
+      properties.forEach(property => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+          <div class="card">
+            <div id="carousel-${property._id}" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                ${property.images.map((img, idx) => `
+                  <div class="carousel-item ${idx === 0 ? 'active' : ''}">
+                    <img src="${img}" class="d-block w-100" alt="Property Image ${idx + 1}">
+                  </div>
+                `).join('')}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${property._id}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-${property._id}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">${property.title}</h5>
+              <p class="card-text">${property.description}</p>
+              <p class="card-text"><small class="text-muted">${property.location}</small></p>
+              <button class="btn btn-danger" onclick="deleteProperty('${property._id}')">Delete</button>
+            </div>
+          </div>
+        `;
+        propertyList.appendChild(card);
+      });
+    }
+
+    async function deleteProperty(propertyId) {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch(`/dashboard/${propertyId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!res.ok) throw new Error('Network response was not ok');
+        fetchProperties();
+      } catch (error) {
+        console.error('Error deleting property:', error);
+      }
+    }
+
+    function filterPropertiesByLocation(properties, location) {
+      return properties.filter(property => property.location === location);
+    }
+
+    function handleSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const location = searchInput.value.trim();
+      if (!locations.includes(location)) {
+        alert('Invalid location. Please enter a valid location.');
+        return;
+      }
+
+      fetch('/properties')
+        .then(res => res.json())
+        .then(properties => {
+          const filteredProperties = filterPropertiesByLocation(properties, location);
+          displayProperties(filteredProperties);
+        })
+        .catch(error => console.error('Error fetching properties:', error));
+    }
+
+    document.getElementById('searchButton').addEventListener('click', handleSearch);
+
+    fetchProperties();
+  </script>
+</body>
+</html>
